@@ -1,14 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:SmartHome"
              x:Class="SmartHome.MainPage">
 
-    <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
-    </StackLayout>
 
-</ContentPage>
+
+    <ContentPage Title="Valaistus">
+
+        <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
+            <Label Text="Keittiö: Sammutettu" FontSize="20"></Label>
+            
+            <Button Text="Keittiö kirkas"></Button>
+            <Button Text="Keittiö puolivalo"></Button>
+            <Button Text="Keittiö himmeä"></Button>
+            <Button Text="Keittiö sammuta"></Button>
+            <Label Text=""></Label>
+           
+            <Label Text="Olohuone: puolivalo" FontSize="20"></Label>
+            
+            <Button Text="Olohuone kirkas"></Button>
+            <Button Text="Olohuone puolivalo"></Button>
+            <Button Text="Olohuone himmeä"></Button>
+            <Button Text="Olohuone sammuta"></Button>
+
+
+        </StackLayout>
+       
+      
+    </ContentPage>
+
+       
+    
+    <ContentPage Title="Lämmitys">
+        <Label Text="Siren Smart Home Solution 2019" HorizontalOptions="Center" VerticalOptions="End" TextColor="Blue"></Label>
+
+    </ContentPage>
+
+
+    <ContentPage Title="Sauna">
+        <Label Text="Siren Smart Home Solution 2019" HorizontalOptions="Center" VerticalOptions="End" TextColor="Blue"></Label>
+
+    </ContentPage>
+
+    <ContentPage Title="Hälytys">
+        <Label Text="Siren Smart Home Solution 2019" HorizontalOptions="Center" VerticalOptions="End" TextColor="Blue"></Label>
+
+    </ContentPage>
+
+</TabbedPage>
