@@ -2,28 +2,38 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:SmartHome"
-             x:Class="SmartHome.MainPage">
+             x:Class="SmartHome.MainPage" BackgroundColor="LightBlue">
 
+    <ContentPage Title="Valot">
 
-
-    <ContentPage Title="Valaistus">
-
-        <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
-            <Label Text="Keittiö: Sammutettu" FontSize="20"></Label>
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center" Padding="30">
             
-            <Button Text="Keittiö kirkas"></Button>
-            <Button Text="Keittiö puolivalo"></Button>
-            <Button Text="Keittiö himmeä"></Button>
-            <Button Text="Keittiö sammuta"></Button>
-            <Label Text=""></Label>
-           
-            <Label Text="Olohuone: puolivalo" FontSize="20"></Label>
-            
-            <Button Text="Olohuone kirkas"></Button>
-            <Button Text="Olohuone puolivalo"></Button>
-            <Button Text="Olohuone himmeä"></Button>
-            <Button Text="Olohuone sammuta"></Button>
+            <!-- Käytän xamlissa tehtävää bindausta labelien ja sliderien välillä, toinen mahd olisi tehdä se .cs puolella
+            tapahtumankäsittelyllä, mutta tämä kai on hiukan siistimpi tapa. -->
+            <Label Text="{Binding Source={x:Reference Slider1},
+            Path=Value, StringFormat='Keittiö: {0:N0}' }"
+               x:Name="Label1" Margin="0, 10, 0, 0"/>
 
+            <Slider x:Name="Slider1"/>
+
+            
+            <Label Text="{Binding Source={x:Reference Slider2},
+            Path=Value, StringFormat='Olohuone: {0:N0}' }"
+               x:Name="Label2" Margin="0, 0, 0, 0"/>
+
+            <Slider x:Name="Slider2"/>
+
+            <Label Text="{Binding Source={x:Reference Slider3},
+            Path=Value, StringFormat='Makuuhuone: {0:N0}' }"
+               x:Name="Label3" Margin="0, 20, 0, 0"/>
+
+            <Slider x:Name="Slider3" Margin="0, 0, 0, 0"/>
+
+            <Label Text="{Binding Source={x:Reference Slider4},
+            Path=Value, StringFormat='Työhuone: {0:N0}' }"
+               x:Name="Label4" Margin="0, 20, 0, 0"/>
+
+            <Slider x:Name="Slider4" Margin="0, 0, 0, 10"/>
 
         </StackLayout>
        
@@ -32,20 +42,28 @@
 
        
     
-    <ContentPage Title="Lämmitys">
+    <ContentPage Title="Lämmitys ja sauna">
         <Label Text="Siren Smart Home Solution 2019" HorizontalOptions="Center" VerticalOptions="End" TextColor="Blue"></Label>
+
 
     </ContentPage>
 
+    <ContentPage Title="Hälytys" >
+        <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
 
-    <ContentPage Title="Sauna">
-        <Label Text="Siren Smart Home Solution 2019" HorizontalOptions="Center" VerticalOptions="End" TextColor="Blue"></Label>
+            <Label Text="Hälytyksen kytkin" FontSize="20" />
+            
+            <Label Text="" />
+            
+            <Switch IsToggled="True" x:Name="HalytysSwitch" PropertyChanging="HalytysSwitch_PropertyChanging"
+                    VerticalOptions="Center" HorizontalOptions="Center"/>
+            
+            <Label Text="" />
 
-    </ContentPage>
+            <Label Text="Hälytys on kytketty päälle!" x:Name="Halytys_Label" TextColor="Red" FontSize="18" />
 
-    <ContentPage Title="Hälytys">
-        <Label Text="Siren Smart Home Solution 2019" HorizontalOptions="Center" VerticalOptions="End" TextColor="Blue"></Label>
-
+        </StackLayout>
+        
     </ContentPage>
 
 </TabbedPage>
