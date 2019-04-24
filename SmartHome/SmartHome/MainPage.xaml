@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:SmartHome"
              x:Class="SmartHome.MainPage" BackgroundColor="LightBlue">
 
+    <!-- VALOJEN OHJAUS -->
+    
     <ContentPage Title="Valot">
 
         <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center" Padding="30">
@@ -15,7 +17,7 @@
                x:Name="Label1" Margin="0, 10, 0, 0"/>
 
             <Slider x:Name="Slider1"/>
-
+            
             
             <Label Text="{Binding Source={x:Reference Slider2},
             Path=Value, StringFormat='Olohuone: {0:N0}' }"
@@ -23,12 +25,14 @@
 
             <Slider x:Name="Slider2"/>
 
+            
             <Label Text="{Binding Source={x:Reference Slider3},
             Path=Value, StringFormat='Makuuhuone: {0:N0}' }"
                x:Name="Label3" Margin="0, 20, 0, 0"/>
 
             <Slider x:Name="Slider3" Margin="0, 0, 0, 0"/>
 
+            
             <Label Text="{Binding Source={x:Reference Slider4},
             Path=Value, StringFormat='Työhuone: {0:N0}' }"
                x:Name="Label4" Margin="0, 20, 0, 0"/>
@@ -40,14 +44,37 @@
       
     </ContentPage>
 
-       
     
-    <ContentPage Title="Lämmitys ja sauna">
-        <Label Text="Siren Smart Home Solution 2019" HorizontalOptions="Center" VerticalOptions="End" TextColor="Blue"></Label>
 
+    <ContentPage Title="Lämmitys ja sauna">
+        <StackLayout VerticalOptions="Start" HorizontalOptions="Center">
+
+            <!-- LÄMMITYKSEN OHJAUS -->
+            <Label Text="Huoneiston lämpötila" Margin="10, 0, 0, 0" />
+            <Label Text="22" x:Name="huoneistonLampotila" Margin="0, 0, 0, 10" />
+
+            <Label Text="Huoneiston tavoitelämpötila" />
+            <Label Text="{Binding Source={x:Reference lampoStepper}, Path=Value}"/>
+
+            <Stepper Value="23" x:Name="lampoStepper" Minimum="10" Maximum="27" Margin="10, 0, 0, 20"/>
+            
+            <!-- SAUNAN OHJAUS -->
+            <Label Text="Saunan ohjaus" />
+            
+
+            <Switch IsToggled="False" x:Name="Sauna_Switch" PropertyChanging="Sauna_Switch_PropertyChanging"
+                    VerticalOptions="Center" HorizontalOptions="Center"/>
+
+            <Label Text="Kiuas on sammutettu" x:Name="Sauna_Label" TextColor="Red" FontSize="14" />
+            <Label Text="Saunan lämpötila" />
+            <Label Text="Saunan lämpötila lukisi tässä" />
+
+        </StackLayout>
 
     </ContentPage>
 
+    <!-- HÄLYTYKSEN OHJAUS-->
+    
     <ContentPage Title="Hälytys" >
         <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
 
