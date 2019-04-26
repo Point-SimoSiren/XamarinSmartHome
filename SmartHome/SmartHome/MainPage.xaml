@@ -67,7 +67,7 @@
 
             <Label Text="Kiuas on sammutettu" x:Name="Sauna_Label" TextColor="Red" FontSize="14" />
             <Label Text="Saunan lämpötila" />
-            <Label Text="Saunan lämpötila lukisi tässä" />
+            <Label Text="Saunan lämpötila tähän" />
 
         </StackLayout>
 
@@ -82,12 +82,12 @@
             
             <Label Text="" />
             
-            <Switch IsToggled="True" x:Name="HalytysSwitch" PropertyChanging="HalytysSwitch_PropertyChanging"
+            <Switch x:Name="HalytysSwitch" PropertyChanging="HalytysSwitch_PropertyChanging"
                     VerticalOptions="Center" HorizontalOptions="Center"/>
             
-            <Label Text="" />
+            <Label x:Name="testi_label" />
 
-            <Label Text="Hälytys on kytketty päälle!" x:Name="Halytys_Label" TextColor="Red" FontSize="18" />
+            <Label x:Name="Halytys_Label" TextColor="Red" FontSize="18" />
 
         </StackLayout>
         

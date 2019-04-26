@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -28,27 +30,40 @@ namespace SmartHome
             Slider2.Maximum = 10;
             Slider3.Maximum = 10;
             Slider4.Maximum = 10;
+
+            GetHalytyksenTila();
+
+
+            
         }
 
-
-              private void HalytysSwitch_PropertyChanging(object sender, PropertyChangingEventArgs e)
+        private async void GetHalytyksenTila()
         {
-                if (HalytysSwitch.IsToggled == false)
-                //Jännä että se toimii näin päin, mutta näin se toimii.
-                //Eli kun togggled on false sanotaan hälytys on kytketty päälle.
-                {
-                Halytys_Label.Text = halypaalle;
-                }
-                else
-                {
-                Halytys_Label.Text = halypois;
-                }
+            HttpClient client = new HttpClient();
+
+            string response = await client.GetStringAsync("http://kotiapi.azurewebsites.net/api/halytys/1");
+
+            Halytys halytysItem = JsonConvert.DeserializeObject<Halytys>(response);
+
+            int h = halytysItem.HalytinStatus;
+        
+            if (h == 0)
+            {
+                HalytysSwitch.IsToggled = false;
+            }
+            else
+            {
+                HalytysSwitch.IsToggled = true;
+            }
         }
+
+
+
 
         private void Sauna_Switch_PropertyChanging(object sender, PropertyChangingEventArgs e)
         {
             if (Sauna_Switch.IsToggled == false)
-            
+
             {
                 Sauna_Label.Text = kiuasPaalle;
             }
@@ -57,5 +72,20 @@ namespace SmartHome
                 Sauna_Label.Text = kiuasPois;
             }
         }
+
+        private void HalytysSwitch_PropertyChanging(object sender, PropertyChangingEventArgs e)
+        {
+            if (HalytysSwitch.IsToggled == false)
+            //Jännä että se toimii näin päin, mutta näin se toimii.
+            //Eli kun togggled on false sanotaan hälytys on kytketty päälle.
+            {
+                Halytys_Label.Text = halypaalle;
+            }
+            else
+            {
+                Halytys_Label.Text = halypois;
+            }
+        }
     }
 }
+
