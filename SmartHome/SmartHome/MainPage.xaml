@@ -24,7 +24,7 @@
             Path=Value, StringFormat='Olohuone: {0:N0}' }"
                x:Name="Olohuone_label" Margin="0, 0, 0, 0"/>
 
-            <Slider x:Name="Olohuone_slider"/>
+            <Slider x:Name="Olohuone_slider" />
 
             
             <Label Text="{Binding Source={x:Reference Makuuhuone_slider},

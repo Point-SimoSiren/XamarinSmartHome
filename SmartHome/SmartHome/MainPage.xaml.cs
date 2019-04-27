@@ -17,6 +17,7 @@ namespace SmartHome
 
         string kiuasPaalle = "Kiuas on päällä.";
         string kiuasPois = "Kiuas on sammutettu.";
+        
 
         public MainPage()
         {
@@ -33,8 +34,32 @@ namespace SmartHome
             Tyohuone_slider.Maximum = 10;
 
             GetHalytyksenTila();
+            GetValojenTilat();
                                    
         }
+
+        private async void GetValojenTilat()
+        {
+            HttpClient client = new HttpClient();
+
+            string response1 = await client.GetStringAsync("https://kotiapi.azurewebsites.net/api/huone/2");
+            Valot k = JsonConvert.DeserializeObject<Valot>(response1);
+            Keittio_slider.Value = k.Valostatus;
+
+            string response2 = await client.GetStringAsync("https://kotiapi.azurewebsites.net/api/huone/3");
+            Valot o = JsonConvert.DeserializeObject<Valot>(response2);
+            Olohuone_slider.Value = o.Valostatus;
+
+            string response3 = await client.GetStringAsync("https://kotiapi.azurewebsites.net/api/huone/4");
+            Valot m = JsonConvert.DeserializeObject<Valot>(response3);
+            Makuuhuone_slider.Value = m.Valostatus;
+
+            string response4 = await client.GetStringAsync("https://kotiapi.azurewebsites.net/api/huone/5");
+            Valot t = JsonConvert.DeserializeObject<Valot>(response4);
+            Tyohuone_slider.Value = t.Valostatus;
+
+        }        
+
 
         private async void GetHalytyksenTila()
         {
