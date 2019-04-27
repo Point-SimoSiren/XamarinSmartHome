@@ -12,8 +12,8 @@ namespace SmartHome
 {
     public partial class MainPage : TabbedPage
     {
-        String halypaalle = "Hälytys on kytketty päälle!";
-        String halypois = "Hälytys on pois päältä.";
+        string halypaalle = "Hälytys on kytketty päälle!";
+        string halypois = "Hälytys on pois päältä.";
 
         string kiuasPaalle = "Kiuas on päällä.";
         string kiuasPois = "Kiuas on sammutettu.";
@@ -21,27 +21,26 @@ namespace SmartHome
         public MainPage()
         {
             InitializeComponent();
-            Slider1.Minimum = 0;
-            Slider2.Minimum = 0;
-            Slider3.Minimum = 0;
-            Slider4.Minimum = 0;
+
+            Keittio_slider.Minimum = 0;
+            Olohuone_slider.Minimum = 0;
+            Makuuhuone_slider.Minimum = 0;
+            Tyohuone_slider.Minimum = 0;
             
-            Slider1.Maximum = 10;
-            Slider2.Maximum = 10;
-            Slider3.Maximum = 10;
-            Slider4.Maximum = 10;
+            Keittio_slider.Maximum = 10;
+            Olohuone_slider.Maximum = 10;
+            Makuuhuone_slider.Maximum = 10;
+            Tyohuone_slider.Maximum = 10;
 
             GetHalytyksenTila();
-
-
-            
+                                   
         }
 
         private async void GetHalytyksenTila()
         {
             HttpClient client = new HttpClient();
 
-            string response = await client.GetStringAsync("http://kotiapi.azurewebsites.net/api/halytys/1");
+            string response = await client.GetStringAsync("https://kotiapi.azurewebsites.net/api/halytys/1");
 
             Halytys halytysItem = JsonConvert.DeserializeObject<Halytys>(response);
 
@@ -50,11 +49,13 @@ namespace SmartHome
             if (h == 0)
             {
                 HalytysSwitch.IsToggled = false;
+                Halytys_Label.Text = halypois;
             }
             else
             {
                 HalytysSwitch.IsToggled = true;
-            }
+                Halytys_Label.Text = halypaalle;
+            };
         }
 
 
@@ -73,19 +74,59 @@ namespace SmartHome
             }
         }
 
-        private void HalytysSwitch_PropertyChanging(object sender, PropertyChangingEventArgs e)
+        public async void HalytysSwitch_PropertyChanged_1(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (HalytysSwitch.IsToggled == false)
-            //Jännä että se toimii näin päin, mutta näin se toimii.
-            //Eli kun togggled on false sanotaan hälytys on kytketty päälle.
-            {
-                Halytys_Label.Text = halypaalle;
+
+            { 
+                        
+                Halytys_Label.Text = halypois;
+
+                //päivitystoiminto API:n kautta tietokantaan
+
+                int id = 1;
+                int stat = 0;
+                Halytys halytys = new Halytys()
+                {
+                    HalytinId = id,
+                    HalytinStatus = stat
+                };
+
+                var json = JsonConvert.SerializeObject(halytys);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpClient client = new HttpClient();
+                var result = await client.PutAsync
+                (string.Concat("https://kotiapi.azurewebsites.net/api/halytys/", halytys.HalytinId), content);
+
             }
             else
             {
-                Halytys_Label.Text = halypois;
+                Halytys_Label.Text = halypaalle;
+
+                //päivitystoiminto API:n kautta tietokantaan
+
+                int id = 1;
+                int stat = 1;
+                Halytys halytys = new Halytys()
+                {
+                    HalytinId = id,
+                    HalytinStatus = stat
+                };
+
+                var json = JsonConvert.SerializeObject(halytys);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpClient client = new HttpClient();
+                var result = await client.PutAsync
+                (string.Concat("https://kotiapi.azurewebsites.net/api/halytys/", halytys.HalytinId), content);
+
             }
         }
+
+        
+
     }
 }
+
 

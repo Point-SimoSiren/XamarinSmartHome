@@ -4,9 +4,10 @@ using System.Text;
 
 namespace SmartHome
 {
-    class Halytys
+    public class Halytys
     {
         public int HalytinId { get; set; }
         public int HalytinStatus { get; set; }
+
     }
 }
