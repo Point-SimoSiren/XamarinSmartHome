@@ -10,35 +10,36 @@
 
         <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center" Padding="30">
             
-            <!-- Käytän xamlissa tehtävää bindausta labelien ja sliderien välillä, toinen mahd olisi tehdä se .cs puolella
+            <!-- Käytän xamlissa tehtävää bindausta labelien ja sliderien välillä,
+            toinen mahd olisi tehdä se .cs puolella
             tapahtumankäsittelyllä. -->
             
             <Label Text="{Binding Source={x:Reference Keittio_slider},
             Path=Value, StringFormat='Keittiö: {0:N0}' }"
-               x:Name="Keittio_label" Margin="0, 10, 0, 0"/>
+               x:Name="Keittio_label" FontSize="Large"/>
 
-            <Slider x:Name="Keittio_slider"/>
+            <Slider x:Name="Keittio_slider" ValueChanged="Keittio_slider_ValueChanged" />
             
             
             <Label Text="{Binding Source={x:Reference Olohuone_slider},
             Path=Value, StringFormat='Olohuone: {0:N0}' }"
-               x:Name="Olohuone_label" Margin="0, 0, 0, 0"/>
+               x:Name="Olohuone_label" FontSize="Large" Margin="0, 30, 0, 0"/>
 
-            <Slider x:Name="Olohuone_slider" />
+            <Slider x:Name="Olohuone_slider" ValueChanged="Olohuone_slider_ValueChanged" />
 
             
             <Label Text="{Binding Source={x:Reference Makuuhuone_slider},
             Path=Value, StringFormat='Makuuhuone: {0:N0}' }"
-               x:Name="Makuuhuone_label" Margin="0, 20, 0, 0"/>
+               x:Name="Makuuhuone_label" FontSize="Large" Margin="0, 30, 0, 0"/>
 
-            <Slider x:Name="Makuuhuone_slider" Margin="0, 0, 0, 0"/>
+            <Slider x:Name="Makuuhuone_slider" />
 
             
             <Label Text="{Binding Source={x:Reference Tyohuone_slider},
             Path=Value, StringFormat='Työhuone: {0:N0}' }"
-               x:Name="Tyohuone_label" Margin="0, 20, 0, 0"/>
+               x:Name="Tyohuone_label" FontSize="Large" Margin="0, 30, 0, 0"/>
 
-            <Slider x:Name="Tyohuone_slider" Margin="0, 0, 0, 10"/>
+            <Slider x:Name="Tyohuone_slider" />
 
         </StackLayout>
        
@@ -48,27 +49,26 @@
     
 
     <ContentPage Title="Lämmitys ja sauna">
-        <StackLayout VerticalOptions="Start" HorizontalOptions="Center">
+        <StackLayout HorizontalOptions="Center" VerticalOptions="Center" >
 
             <!-- LÄMMITYKSEN OHJAUS -->
-            <Label Text="Huoneiston lämpötila" Margin="10, 0, 0, 0" />
-            <Label Text="22" x:Name="huoneistonLampotila" Margin="0, 0, 0, 10" />
+            <Label Text="Huoneiston nykyinen lämpötila" FontSize="Medium" />
+            <Label Text="22" x:Name="huoneistonLampotila" FontSize="Large" Margin="30, 0, 0, 30" />
 
-            <Label Text="Huoneiston tavoitelämpötila" />
-            <Label Text="{Binding Source={x:Reference lampoStepper}, Path=Value}"/>
+            <Label Text="Huoneiston tavoitelämpötila" FontSize="Medium"/>
+            <Label Text="{Binding Source={x:Reference lampoStepper}, Path=Value}" FontSize="Large" Margin="30, 0, 0, 10" />
 
-            <Stepper Value="23" x:Name="lampoStepper" Minimum="10" Maximum="27" Margin="10, 0, 0, 20"/>
+            <Stepper Value="23" x:Name="lampoStepper" Minimum="10" Maximum="27" />
             
             <!-- SAUNAN OHJAUS -->
-            <Label Text="Saunan ohjaus" />
+            <Label Text="Saunan ohjaus" FontSize="Medium" Margin="40, 40, 30, 10" />
             
 
-            <Switch IsToggled="False" x:Name="Sauna_Switch" PropertyChanging="Sauna_Switch_PropertyChanging"
-                    VerticalOptions="Center" HorizontalOptions="Center"/>
+            <Switch x:Name="Sauna_Switch" VerticalOptions="Center" HorizontalOptions="Center" PropertyChanged="Sauna_Switch_PropertyChanged"/>
 
-            <Label Text="Kiuas on sammutettu" x:Name="Sauna_Label" TextColor="Red" FontSize="14" />
-            <Label Text="Saunan lämpötila" />
-            <Label Text="Saunan lämpötila tähän" />
+            <Label x:Name="Sauna_Label" TextColor="Red" FontSize="Large" Margin="0, 20, 0, 10"/>
+            <Label x:Name="Saunanlampo_Label" FontSize="Large" />
+            
 
         </StackLayout>
 
@@ -79,16 +79,15 @@
     <ContentPage Title="Hälytys" >
         <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
 
-            <Label Text="Hälytyksen kytkin" FontSize="20" />
+            <Label Text="Hälytyksen kytkin" FontSize="Large" />
             
-            <Label Text="" />
+                        
+            <Switch x:Name="HalytysSwitch" PropertyChanged="HalytysSwitch_PropertyChanged"
+                    VerticalOptions="Center" HorizontalOptions="Center" Margin="0, 30, 0, 50" />
             
-            <Switch x:Name="HalytysSwitch" PropertyChanged="HalytysSwitch_PropertyChanged_1"
-                    VerticalOptions="Center" HorizontalOptions="Center"/>
             
-            <Label x:Name="testi_label" />
 
-            <Label x:Name="Halytys_Label" TextColor="Red" FontSize="18" />
+            <Label x:Name="Halytys_Label" TextColor="Red" FontSize="Large" />
 
         </StackLayout>
         
