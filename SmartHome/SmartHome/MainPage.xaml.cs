@@ -21,7 +21,7 @@ namespace SmartHome
         string slup = "Saunan lämpötila: 37 astetta";
         string sldn = "Saunan lämpötila: 23 astetta";
 
-        static int arvottu()
+        static int Arvottu()
         {
             Random rnd = new Random();
             return rnd.Next(20, 23);
@@ -58,13 +58,14 @@ namespace SmartHome
         
         private async void GetLammitysLukemat()
         {
-            HttpClient client = new HttpClient();
-                        
+            //Haetaan lämpötilanasetus stepperin talletettu arvo tietokannasta
+            HttpClient client = new HttpClient();        
             string response = await client.GetStringAsync("https://kotiapi.azurewebsites.net/api/lammitys/1");
             Lammitys Lam = JsonConvert.DeserializeObject<Lammitys>(response);
             lampoStepper.Value = Lam.LampotilaAsetus;
             
-            huoneistonLampotila.Text = arvottu().ToString();
+            //Käytetään aiemmin arvottua lukemaa vallitsevaan huoneistonlämpötilaan
+            huoneistonLampotila.Text = Arvottu().ToString();
 
         }
         
@@ -207,9 +208,11 @@ namespace SmartHome
 
                 int id = 1;
                 int stat = 0;
+                string nimi = "saunax";
                 Sauna sauna = new Sauna()
                 {
                     SaunaId = id,
+                    SaunaNimi = nimi,
                     VirtaStatus = stat
                 };
 
@@ -229,10 +232,12 @@ namespace SmartHome
                 //päivitystoiminto API:n kautta tietokantaan
 
                 int id = 1;
+                string nimi = "saunax";
                 int stat = 1;
                 Sauna sauna = new Sauna()
                 {
                     SaunaId = id,
+                    SaunaNimi = nimi,
                     VirtaStatus = stat
                 };
 
@@ -339,6 +344,27 @@ namespace SmartHome
 
         }
 
+        // Uuden huoneistolämpötila-asetuksen tallettaminen tietokantaan
+
+        private async void LampoStepper_ValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            int id = 1;
+            int nykyinen = Arvottu();
+            int lampAsetus = (int)e.NewValue;
+            Lammitys asetettu = new Lammitys()
+            {
+                LammitinId = id,
+                NykyLampotila = nykyinen,
+                LampotilaAsetus = lampAsetus
+            };
+
+            var json = JsonConvert.SerializeObject(asetettu);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            HttpClient client = new HttpClient();
+            var result = await client.PutAsync
+            (string.Concat("https://kotiapi.azurewebsites.net/api/Lammitys/", asetettu.LammitinId), content);
+        }
     }
 }
 
