@@ -11,6 +11,5 @@ namespace SmartHome
         public int LampotilaAsetus { get; set; }
 
         
-
     }
-    }
+}

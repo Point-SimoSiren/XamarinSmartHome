@@ -12,21 +12,19 @@
             
             <!-- Käytän xamlissa tehtävää bindausta labelien ja sliderien välillä,
             toinen mahd olisi tehdä se MainPage.cs puolella
-            tapahtumankäsittelyllä. Eventit on nimetty xamlissa mutta logiikka MainPage.cs puolella. -->
+            tapahtumankäsittelyllä. Eventit taasen on nimetty xamlissa mutta logiikka MainPage.cs puolella. -->
             
             <Label Text="{Binding Source={x:Reference Keittio_slider},
             Path=Value, StringFormat='Keittiö: {0:N0}' }"
                x:Name="Keittio_label" FontSize="Large"/>
 
             <Slider x:Name="Keittio_slider" ValueChanged="Keittio_slider_ValueChanged" />
-            
-            
+                        
             <Label Text="{Binding Source={x:Reference Olohuone_slider},
             Path=Value, StringFormat='Olohuone: {0:N0}' }"
                x:Name="Olohuone_label" FontSize="Large" Margin="0, 20, 0, 0"/>
 
             <Slider x:Name="Olohuone_slider" ValueChanged="Olohuone_slider_ValueChanged" />
-
             
             <Label Text="{Binding Source={x:Reference Makuuhuone_slider},
             Path=Value, StringFormat='Makuuhuone: {0:N0}' }"
@@ -42,8 +40,7 @@
             <Slider x:Name="Tyohuone_slider" ValueChanged="Tyohuone_slider_ValueChanged" />
 
         </StackLayout>
-       
-      
+             
     </ContentPage>
 
     
@@ -52,19 +49,22 @@
         <StackLayout HorizontalOptions="Center" VerticalOptions="Center" >
 
             <!-- LÄMMITYKSEN OHJAUS -->
+            
             <Label Text="Huoneiston nykyinen lämpötila" FontSize="Medium" />
             <Label x:Name="huoneistonLampotila" FontSize="Large" Margin="30, 0, 0, 5" />
 
             <Label Text="Huoneiston tavoitelämpötila" FontSize="Medium"/>
-            <Label Text="{Binding Source={x:Reference lampoStepper}, Path=Value}" FontSize="Large" Margin="30, 0, 0, 5" />
+            <Label Text="{Binding Source={x:Reference lampoStepper}, Path=Value}" FontSize="Large"
+             Margin="30, 0, 0, 5" />
 
-            <Stepper Value="23" x:Name="lampoStepper" Minimum="10" Maximum="27" />
+            <Stepper x:Name="lampoStepper" Minimum="10" Maximum="27" ValueChanged="LampoStepper_ValueChanged" />
             
             <!-- SAUNAN OHJAUS -->
+            
             <Label Text="Saunan ohjaus" FontSize="Medium" Margin="40, 10, 30, 5" />
             
-
-            <Switch x:Name="Sauna_Switch" VerticalOptions="Center" HorizontalOptions="Center" PropertyChanged="Sauna_Switch_PropertyChanged"/>
+            <Switch x:Name="Sauna_Switch" VerticalOptions="Center" HorizontalOptions="Center"
+             PropertyChanged="Sauna_Switch_PropertyChanged"/>
 
             <Label x:Name="Sauna_Label" TextColor="Red" FontSize="Medium" />
             <Label x:Name="Saunanlampo_Label" FontSize="Medium" />
@@ -81,12 +81,10 @@
         <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
 
             <Label Text="Hälytyksen kytkin" FontSize="Medium" />
-            
-                        
+                                    
             <Switch x:Name="HalytysSwitch" PropertyChanged="HalytysSwitch_PropertyChanged"
                     VerticalOptions="Center" HorizontalOptions="Center" Margin="0, 30, 0, 50" />
-            
-            
+                        
             <Label x:Name="Halytys_Label" TextColor="Red" FontSize="Medium" />
 
         </StackLayout>
