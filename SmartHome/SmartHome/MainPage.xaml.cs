@@ -21,26 +21,54 @@ namespace SmartHome
         string slup = "Saunan lämpötila: 37 astetta";
         string sldn = "Saunan lämpötila: 23 astetta";
 
+        static int arvottu()
+        {
+            Random rnd = new Random();
+            return rnd.Next(20, 23);
+        }
+
 
         public MainPage()
         {
             InitializeComponent();
+
+            // Valaisin slidereiden minimi ja maksimi arvojen asettaminen ohjelman alussa
 
             Keittio_slider.Minimum = 0;
             Olohuone_slider.Minimum = 0;
             Makuuhuone_slider.Minimum = 0;
             Tyohuone_slider.Minimum = 0;
             
-            Keittio_slider.Maximum = 3;
-            Olohuone_slider.Maximum = 3;
-            Makuuhuone_slider.Maximum = 3;
-            Tyohuone_slider.Maximum = 3;
+            Keittio_slider.Maximum = 100;
+            Olohuone_slider.Maximum = 100;
+            Makuuhuone_slider.Maximum = 100;
+            Tyohuone_slider.Maximum = 100;
+            
 
-            GetHalytyksenTila();
+            // Tässä kutsutaan funktiot joka hakevat valojen yms laitteiden tilan kannasta kun ohjelma aukeaa
             GetValojenTilat();
+            GetHalytyksenTila();
             GetSaunanTila();
-                                   
+            GetLammitysLukemat();
+                                                                      
         }
+
+        
+            
+        
+        private async void GetLammitysLukemat()
+        {
+            HttpClient client = new HttpClient();
+                        
+            string response = await client.GetStringAsync("https://kotiapi.azurewebsites.net/api/lammitys/1");
+            Lammitys Lam = JsonConvert.DeserializeObject<Lammitys>(response);
+            lampoStepper.Value = Lam.LampotilaAsetus;
+            
+            huoneistonLampotila.Text = arvottu().ToString();
+
+        }
+        
+
 
         private async void GetValojenTilat()
         {
@@ -112,7 +140,7 @@ namespace SmartHome
         }
 
 
-        // ---------------------- Hälytyksen tilamuutos PUT ----------------------------
+        // Hälytyksen tilamuutos PUT
 
         public async void HalytysSwitch_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -220,11 +248,11 @@ namespace SmartHome
         }
 
 
-        //------------ Valojen arvomuutokset PUT -----------------------
+        // Keittiön valo PUT
                     
         private async void Keittio_slider_ValueChanged(object sender, ValueChangedEventArgs e)
         {
-
+            
             int id = 2;
             string huonenimi = "Keittiö";
             int valostatus = (int)Keittio_slider.Value;
@@ -236,12 +264,14 @@ namespace SmartHome
             };
             
             var json = JsonConvert.SerializeObject(keit);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
             HttpClient client = new HttpClient();
             var result = await client.PutAsync
             (string.Concat("https://kotiapi.azurewebsites.net/api/huone/", keit.HuoneId), content);
         }
+
+        // Olohuoneen valo PUT
 
         private async void Olohuone_slider_ValueChanged(object sender, ValueChangedEventArgs e)
         {
@@ -256,12 +286,59 @@ namespace SmartHome
             };
             
             var json = JsonConvert.SerializeObject(oloh);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
             HttpClient client = new HttpClient();
             var result = await client.PutAsync
             (string.Concat("https://kotiapi.azurewebsites.net/api/huone/", oloh.HuoneId), content);
         }
+
+        // Makuuhuoneen valo PUT
+
+        private async void Makuuhuone_slider_ValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            int id = 4;
+            string huonenimi = "Makuuhuone";
+            int valostatus = (int)Makuuhuone_slider.Value;
+            Huone mak = new Huone()
+            {
+                HuoneId = id,
+                Huonenimi = huonenimi,
+                Valostatus = valostatus
+            };
+
+            var json = JsonConvert.SerializeObject(mak);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            HttpClient client = new HttpClient();
+            var result = await client.PutAsync
+            (string.Concat("https://kotiapi.azurewebsites.net/api/huone/", mak.HuoneId), content);
+
+        }
+
+        // Työhuoneen valo PUT
+
+        private async void Tyohuone_slider_ValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            int id = 5;
+            string huonenimi = "Työhuone";
+            int valostatus = (int)Tyohuone_slider.Value;
+            Huone tyoh = new Huone()
+            {
+                HuoneId = id,
+                Huonenimi = huonenimi,
+                Valostatus = valostatus
+            };
+
+            var json = JsonConvert.SerializeObject(tyoh);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            HttpClient client = new HttpClient();
+            var result = await client.PutAsync
+            (string.Concat("https://kotiapi.azurewebsites.net/api/huone/", tyoh.HuoneId), content);
+
+        }
+
     }
 }
 

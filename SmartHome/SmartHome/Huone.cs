@@ -10,4 +10,5 @@ namespace SmartHome
         public string Huonenimi { get; set; }
         public int Valostatus { get; set; }
     }
+
 }
