@@ -10,9 +10,8 @@
 
         <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="20, 0, 10, 0">
             
-            <!-- Käytän xamlissa tehtävää bindausta labelien ja sliderien välillä,
-            toinen mahd olisi tehdä se MainPage.cs puolella
-            tapahtumankäsittelyllä. Eventit taasen on nimetty xamlissa mutta logiikka MainPage.cs puolella. -->
+            <!-- Käytän xamlissa tehtävää bindausta labelien ja sliderien/stepperin välillä,
+            Eventit taasen on nimetty xamlissa mutta logiikka MainPage.cs puolella. -->
             
             <Label Text="{Binding Source={x:Reference Keittio_slider},
             Path=Value, StringFormat='Keittiö: {0:N0}' }"
