@@ -18,14 +18,29 @@ namespace SmartHome
         string kiuasPaalle = "Kiuas on päällä.";
         string kiuasPois = "Kiuas on sammutettu.";
 
-        string slup = "Saunan lämpötila: 37 astetta";
-        string sldn = "Saunan lämpötila: 23 astetta";
+        
 
         static int Arvottu()
         {
             Random rnd = new Random();
-            return rnd.Next(20, 23);
+            return rnd.Next(20, 22);
         }
+
+        static int SaunaPoisArvottu()
+        {
+            Random rnd = new Random();
+            return rnd.Next(21, 24);
+        }
+
+        static int SaunaPaalleArvottu()
+        {
+            Random rnd = new Random();
+            return rnd.Next(80, 83);
+        }
+
+        string slup = "Saunan lämpötila: " + SaunaPaalleArvottu() + "astetta";
+        string sldn = "Saunan lämpötila: " + SaunaPoisArvottu() + "astetta";
+
 
 
         public MainPage()
@@ -209,11 +224,13 @@ namespace SmartHome
                 int id = 1;
                 int stat = 0;
                 string nimi = "saunax";
+                int lämpöt = SaunaPoisArvottu();
                 Sauna sauna = new Sauna()
                 {
                     SaunaId = id,
                     SaunaNimi = nimi,
-                    VirtaStatus = stat
+                    VirtaStatus = stat,
+                    LämpöTila = lämpöt
                 };
 
                 var json = JsonConvert.SerializeObject(sauna);
@@ -234,11 +251,13 @@ namespace SmartHome
                 int id = 1;
                 string nimi = "saunax";
                 int stat = 1;
+                int lämpöt = SaunaPaalleArvottu();
                 Sauna sauna = new Sauna()
                 {
                     SaunaId = id,
                     SaunaNimi = nimi,
-                    VirtaStatus = stat
+                    VirtaStatus = stat,
+                    LämpöTila = lämpöt
                 };
 
                 var json = JsonConvert.SerializeObject(sauna);
